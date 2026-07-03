@@ -33,7 +33,15 @@ jobs:
           ssh \
             -i ~/.ssh/id_ed25519 \
             ${{ secrets.ANSIBLE_USER }}@${{ secrets.ANSIBLE_HOST }} \
-            "hostname && id -a && pwd && ansible --version && ansible all --list-hosts"
+            "hostname && id -a && pwd && ansible --version"
+
+      - name: Clone repo on Ansible Master Server
+        run: |
+          ssh -i ~/.ssh/id_ed25519 \
+          ${{ secrets.ANSIBLE_USER }}@${{ secrets.ANSIBLE_HOST }} \
+          "cd /home/github-ansible-user && \
+           git pull origin main && \
+           ansible all --list-hosts"
 
    #   - name: Run deployment
    #     run: |

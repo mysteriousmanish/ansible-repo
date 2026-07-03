@@ -28,12 +28,12 @@ jobs:
 
           ssh-keyscan -H ${{ secrets.ANSIBLE_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Run Command
+      - name: Run Command on Ansible Master Server
         run: |
           ssh \
             -i ~/.ssh/id_ed25519 \
             ${{ secrets.ANSIBLE_USER }}@${{ secrets.ANSIBLE_HOST }} \
-            "hostname && id -a"
+            "hostname && id -a && pwd"
 
    #   - name: Run deployment
    #     run: |

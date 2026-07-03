@@ -1,0 +1,44 @@
+# This is a basic workflow to help you get started with Actions
+
+name: ansbile-ad-hoc-job
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+  
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.ANSIBLE_SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+
+          ssh-keyscan -H ${{ secrets.ANSIBLE_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Run Command
+        run: |
+          ssh \
+            -i ~/.ssh/id_ed25519 \
+            ${{ secrets.ANSIBLE_USER }}@${{ secrets.ANSIBLE_HOST }} \
+            hostname \
+            id -a
+
+   #   - name: Run deployment
+   #     run: |
+    #      ssh \
+     #       -i ~/.ssh/id_ed25519 \
+     #       ${{ secrets.ANSIBLE_USER }}@${{ secrets.ANSIBLE_HOST }} \
+      #      "cd /opt/ansible && ansible-playbook -i inventory/prod playbooks/deploy.yml"

@@ -33,8 +33,7 @@ jobs:
           ssh \
             -i ~/.ssh/id_ed25519 \
             ${{ secrets.ANSIBLE_USER }}@${{ secrets.ANSIBLE_HOST }} \
-            hostname \
-            id -a
+            "hostname && id -a"
 
    #   - name: Run deployment
    #     run: |

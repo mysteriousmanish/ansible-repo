@@ -50,7 +50,7 @@ jobs:
             -i ~/.ssh/id_ed25519 \
             ${{ secrets.ANSIBLE_USER }}@${{ secrets.ANSIBLE_HOST }} \
             "cd /home/github-ansible-user/ansible-repo && \
-             mv .ansible.cfg /home/github-ansible-user/
+             mv .ansible.cfg /home/github-ansible-user/"
 
       - name: Clone repo on Ansible Master Server
         run: |

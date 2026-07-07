@@ -43,9 +43,18 @@ jobs:
            git pull origin main && \
            ansible all --list-hosts"
 
-   #   - name: Run deployment
-   #     run: |
-    #      ssh \
-     #       -i ~/.ssh/id_ed25519 \
-     #       ${{ secrets.ANSIBLE_USER }}@${{ secrets.ANSIBLE_HOST }} \
-      #      "cd /opt/ansible && ansible-playbook -i inventory/prod playbooks/deploy.yml"
+
+      - name: Copy Ansible Configuration file (.ansbile.cfg) in user home directory
+        run: |
+          ssh \
+            -i ~/.ssh/id_ed25519 \
+            ${{ secrets.ANSIBLE_USER }}@${{ secrets.ANSIBLE_HOST }} \
+            "cd /home/github-ansible-user/ansible-repo && \
+             mv .ansible.cfg /home/github-ansible-user/
+
+      - name: Clone repo on Ansible Master Server
+        run: |
+          ssh -i ~/.ssh/id_ed25519 \
+          ${{ secrets.ANSIBLE_USER }}@${{ secrets.ANSIBLE_HOST }} \
+          "cd /home/github-ansible-user/ansible-repo && \
+          ansible all --list-hosts"

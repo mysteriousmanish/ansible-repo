@@ -39,7 +39,7 @@ jobs:
         run: |
           ssh -i ~/.ssh/id_ed25519 \
           ${{ secrets.ANSIBLE_USER }}@${{ secrets.ANSIBLE_HOST }} \
-          "cd /home/github-ansible-user && \
+          "cd /home/github-ansible-user/ansible-repo && \
            git pull origin main && \
            ansible all --list-hosts"
 
